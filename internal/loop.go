@@ -133,14 +133,11 @@ func Loop(ctx context.Context) error {
 	defer ticker.Stop()
 	var event *tcell.EventKey
 	var mu sync.Mutex
-	var finished bool
 	go func() {
+		var finished bool
 		for {
 			s.Clear()
-			mu.Lock()
-			done := finished
-			mu.Unlock()
-			if done {
+			if finished {
 				// Stop processing key events when the game is over.
 				text := "game over"
 				drawText(s, 0, 0, len(text), 0, tcell.StyleDefault, text)
